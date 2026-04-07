@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="contact-container">
+
+    <h1>Contact Us</h1>
+
+    <div class="contact-box">
+
+        <!-- LEFT INFO -->
+        <div class="contact-info">
+
+            <div class="info-box">
+                <h3>📍 Address</h3>
+                <p>Amman, Jordan</p>
+            </div>
+
+            <div class="info-box">
+                <h3>📞 Phone</h3>
+                <p>+962780644250</p>
+            </div>
+
+            <div class="info-box">
+                <h3>💼 Join Our Team</h3>
+                <p>Zeyra Company</p>
+            </div>
+
+        </div>
+
+        <!-- FORM -->
+        <div class="contact-form">
+
+            <input type="text" id="name" placeholder="Your Name">
+
+            <input type="text" id="subject" placeholder="Subject">
+
+            <textarea id="message" placeholder="Your Message"></textarea>
+
+            <button onclick="sendWhatsApp()">Send Message</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- WhatsApp Script -->
+<script>
+function sendWhatsApp() {
+    let name = document.getElementById("name").value;
+    let subject = document.getElementById("subject").value;
+    let message = document.getElementById("message").value;
+
+    let phone = "962780644250";
+
+    let url = "https://wa.me/" + phone + "?text="
+        + "Name: " + name + "%0A"
+        + "Subject: " + subject + "%0A"
+        + "Message: " + message;
+
+    window.open(url, "_blank");
+}
+</script>
+
+{% endblock %}

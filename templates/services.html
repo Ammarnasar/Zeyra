@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+
+/* GENERAL */
+body {
+    background:#0a0f1f;
+    font-family: 'Segoe UI', sans-serif;
+    color:white;
+}
+
+/* HERO */
+.hero {
+    text-align:center;
+    padding:100px 20px;
+    background:linear-gradient(135deg,#0b1c39,#1a3a6b);
+}
+
+.hero h1 {
+    font-size:48px;
+    margin-bottom:15px;
+}
+
+.hero p {
+    font-size:18px;
+    color:#ccc;
+}
+
+/* SERVICES GRID */
+.services {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+    padding:60px;
+}
+
+/* CARD */
+.card {
+    background:rgba(255,255,255,0.05);
+    border-radius:20px;
+    padding:25px;
+    backdrop-filter: blur(10px);
+    transition:0.3s;
+    border:1px solid rgba(255,255,255,0.1);
+    position:relative;
+    overflow:hidden;
+}
+
+.card:hover {
+    transform:translateY(-10px) scale(1.02);
+    box-shadow:0 15px 40px rgba(0,0,0,0.4);
+}
+
+/* IMAGE */
+.card img {
+    width:100%;
+    border-radius:12px;
+    margin-bottom:15px;
+}
+
+/* TITLE */
+.card h3 {
+    font-size:22px;
+    margin-bottom:10px;
+}
+
+/* TEXT */
+.card p {
+    color:#ccc;
+    line-height:1.6;
+}
+
+/* GLOW EFFECT */
+.card::before {
+    content:'';
+    position:absolute;
+    width:200%;
+    height:200%;
+    background:radial-gradient(circle,rgba(0,188,212,0.2),transparent);
+    top:-50%;
+    left:-50%;
+    opacity:0;
+    transition:0.4s;
+}
+
+.card:hover::before {
+    opacity:1;
+}
+
+/* SECTION TITLE */
+.section-title {
+    text-align:center;
+    margin-top:40px;
+}
+
+.section-title h2 {
+    font-size:36px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .hero h1 {
+        font-size:32px;
+    }
+
+    .services {
+        padding:30px;
+    }
+}
+
+</style>
+
+<!-- HERO -->
+<div class="hero">
+    <h1>Powerful Outsourcing Solutions</h1>
+    <p>Scale faster. Reduce costs. Deliver excellence.</p>
+</div>
+
+<div class="section-title">
+    <h2>Our Services</h2>
+</div>
+
+<!-- SERVICES -->
+<div class="services">
+
+    <!-- CUSTOMER SUPPORT -->
+    <div class="card">
+        <img src="/static/images/customer_support.jpg">
+        <h3>Customer Support</h3>
+        <p>
+            Deliver world-class customer experiences with our highly trained support agents.
+            We manage calls, chats, and emails with speed and professionalism to boost your customer satisfaction.
+        </p>
+    </div>
+
+    <!-- DATA ENTRY -->
+    <div class="card">
+        <img src="/static/images/data_entry.jpg">
+        <h3>Data Entry</h3>
+        <p>
+            Organize your business with precise and efficient data entry services.
+            We handle large volumes with accuracy, security, and fast turnaround.
+        </p>
+    </div>
+
+    <!-- CONTENT MODERATION -->
+    <div class="card">
+        <img src="/static/images/moderation.jpg">
+        <h3>Content Moderation</h3>
+        <p>
+            Protect your brand with 24/7 content moderation.
+            We filter harmful content, review posts, and ensure your platform stays safe and professional.
+        </p>
+    </div>
+
+</div>
+
+{% endblock %}

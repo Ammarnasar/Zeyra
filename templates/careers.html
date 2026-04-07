@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="job-container">
+
+    <h1>ZEYRA Job Application Form</h1>
+
+    <form method="POST" enctype="multipart/form-data" class="job-form">
+
+        <!-- Personal Details -->
+        <h3>Personal Details</h3>
+
+        <div class="grid-4">
+            <input type="text" name="first_name" placeholder="First Name" required>
+            <input type="text" name="father_name" placeholder="Father Name" required>
+            <input type="text" name="grand_name" placeholder="Grand Father" required>
+            <input type="text" name="last_name" placeholder="Last Name" required>
+        </div>
+
+        <div class="grid-4">
+            <input type="date" name="dob" required>
+            <input type="text" name="nationality" placeholder="Nationality">
+            <input type="text" name="national_id" placeholder="National ID">
+            <input type="text" name="phone" placeholder="Phone Number">
+        </div>
+
+        <input type="text" name="address" placeholder="Address">
+
+        <div class="grid-2">
+            <select name="gender">
+                <option>Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+
+            <select name="marital_status">
+                <option>Marital Status</option>
+                <option>Single</option>
+                <option>Married</option>
+            </select>
+        </div>
+
+        <!-- Education -->
+        <h3>Education</h3>
+
+        <div class="grid-3">
+            <input type="text" name="degree" placeholder="Degree">
+            <input type="text" name="graduation_year" placeholder="Graduation Year">
+            <input type="text" name="major" placeholder="Major">
+        </div>
+
+        <!-- Skills -->
+        <h3>Courses / Skills</h3>
+        <textarea name="skills" placeholder="Write your skills..."></textarea>
+
+        <!-- Work -->
+        <h3>Work Experience</h3>
+
+        <div class="grid-3">
+            <input type="text" name="experience" placeholder="Years of Experience">
+            <select name="employment_status">
+                <option>Employment Status</option>
+                <option>Employed</option>
+                <option>Unemployed</option>
+            </select>
+            <input type="text" name="current_salary" placeholder="Current Salary">
+        </div>
+
+        <input type="text" name="expected_salary" placeholder="Expected Salary">
+
+        <!-- Languages -->
+        <h3>Languages</h3>
+
+        <div class="grid-2">
+            <input type="text" name="language1" placeholder="Language">
+            <select name="level1">
+                <option>Level</option>
+                <option>Basic</option>
+                <option>Intermediate</option>
+                <option>Advanced</option>
+            </select>
+        </div>
+
+        <!-- Contact -->
+        <h3>Contact Details</h3>
+
+        <div class="grid-2">
+            <input type="text" name="phone" placeholder="Phone Number">
+            <input type="email" name="email" placeholder="Email">
+        </div>
+
+        <!-- Upload -->
+        <h3>Documents</h3>
+
+        <div class="grid-3">
+            <input type="file" name="cv" required>
+            <input type="file" name="id_front" required>
+            <input type="file" name="id_back" required>
+        </div>
+
+        <button type="submit" class="apply-btn">APPLY</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

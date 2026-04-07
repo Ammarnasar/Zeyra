@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ZEYRA</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body style="margin:0; font-family:Arial;">
+
+<!-- ===================== -->
+<!-- NAVBAR -->
+<!-- ===================== -->
+<div style="background:white; padding:15px 40px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,0.1); position:sticky; top:0; z-index:1000;">
+
+    <!-- LOGO -->
+    <div style="font-size:22px; font-weight:bold; color:#00bcd4;">
+        ZEYRA
+    </div>
+
+    <!-- LINKS -->
+    <div>
+        <a href="/" style="margin:15px; text-decoration:none; color:black;">Home</a>
+        <a href="/services" style="margin:15px; text-decoration:none; color:black;">Services</a>
+        <a href="/careers" style="margin:15px; text-decoration:none; color:black;">Careers</a>
+        <a href="/contact" style="margin:15px; text-decoration:none; color:black;">Contact</a>
+    </div>
+
+    <!-- BUTTON -->
+    <div>
+        <a href="/contact" 
+           style="background:#00bcd4; color:white; padding:10px 20px; border-radius:5px; text-decoration:none;">
+           Get Started
+        </a>
+    </div>
+    
+    <div>
+    <img src="{{ url_for('static', filename='images/logo.png') }}" 
+         width="120" 
+         style="vertical-align:middle;">
+</div>
+
+</div>
+
+<!-- PAGE CONTENT -->
+{% block content %}{% endblock %}
+
+</body>
+</html>
