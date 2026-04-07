@@ -1,21 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 import os
-from flask import session
-from flask import session, redirect, url_for
 
 app = Flask(__name__)
-
-app.secret_key = "zeyra_secret_123"
 app.secret_key = "zeyra_secret_key"
+
+# ======================
 # إعداد رفع الملفات
+# ======================
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-# إنشاء فولدر إذا مش موجود
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
-
 
 # ======================
 # الصفحات الأساسية
@@ -25,11 +22,9 @@ if not os.path.exists(UPLOAD_FOLDER):
 def home():
     return render_template("home.html")
 
-
 @app.route("/services")
 def services():
     return render_template("services.html")
-
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
@@ -54,7 +49,7 @@ def contact():
     return render_template("contact.html")
 
 # ======================
-# صفحة التوظيف
+# التوظيف
 # ======================
 
 @app.route("/careers", methods=["GET", "POST"])
@@ -72,12 +67,10 @@ def careers():
             id_front = request.files.get("id_front")
             id_back = request.files.get("id_back")
 
-            # أسماء الملفات
             cv_name = cv.filename if cv else ""
             front_name = id_front.filename if id_front else ""
             back_name = id_back.filename if id_back else ""
 
-            # حفظ الملفات
             if cv:
                 cv.save(os.path.join(app.config["UPLOAD_FOLDER"], cv_name))
 
@@ -87,7 +80,6 @@ def careers():
             if id_back:
                 id_back.save(os.path.join(app.config["UPLOAD_FOLDER"], back_name))
 
-            # تخزين في الداتابيس
             conn = sqlite3.connect("database.db")
             c = conn.cursor()
 
@@ -111,50 +103,55 @@ def careers():
 
     return render_template("careers.html")
 
-
 # ======================
-# Dashboard (الإدارة)
+# تسجيل دخول الأدمن
 # ======================
-@app.route("/dashboard")
-def dashboard():
-    import sqlite3
 
-    conn = sqlite3.connect("database.db")
-    c = conn.cursor()
-
-    # جلب المتقدمين
-    c.execute("SELECT * FROM applicants")
-    applicants = c.fetchall()
-
-    # جلب الرسائل
-    c.execute("SELECT * FROM messages")
-    messages = c.fetchall()
-
-    conn.close()
-
-    return render_template("dashboard.html", applicants=applicants, messages=messages)
-# ======================
-# الادمن 
-# ======================
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
 
-        # بيانات الأدمن (تقدر تغيرها)
-        if username == "admin" and password == "1234":
-            session["admin"] = True
+        if username == "Ammar" and password == "Ammar123456":
+            session["ammar"] = True
             return redirect(url_for("dashboard"))
+        else:
+            return render_template("login.html", error="Wrong username or password")
 
-    return render_template("login.html") 
+    return render_template("login.html")
 
 # ======================
-# حذف متقدم  
+# Dashboard (محمية)
+# ======================
+
+@app.route("/dashboard")
+def dashboard():
+    if "admin" not in session:
+        return redirect(url_for("login"))
+
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM applicants")
+    applicants = c.fetchall()
+
+    c.execute("SELECT * FROM messages")
+    messages = c.fetchall()
+
+    conn.close()
+
+    return render_template("dashboard.html", applicants=applicants, messages=messages)
+
 # ======================
 # حذف متقدم
+# ======================
+
 @app.route("/delete_applicant/<int:id>")
 def delete_applicant(id):
+    if "admin" not in session:
+        return redirect(url_for("login"))
+
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
@@ -163,12 +160,17 @@ def delete_applicant(id):
     conn.commit()
     conn.close()
 
-    return redirect("/dashboard")
+    return redirect(url_for("dashboard"))
 
-
+# ======================
 # حذف رسالة
+# ======================
+
 @app.route("/delete_message/<int:id>")
 def delete_message(id):
+    if "admin" not in session:
+        return redirect(url_for("login"))
+
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
@@ -177,24 +179,16 @@ def delete_message(id):
     conn.commit()
     conn.close()
 
-    return redirect("/dashboard")
+    return redirect(url_for("dashboard"))
 
 # ======================
-# صفحة تسجيل الدخول 
-# =======================
-
-
-        # بيانات الأدمن (تقدر تغيرها)
-    if username == "admin" and password == "1234":
-            session["admin"] = True
-            return redirect("/dashboard")
-    else:
-            return "Wrong username or password"
-
-    return render_template("login.html")
+# تسجيل الخروج
 # ======================
-# تسجيل الخروج 
-# ======================
+
+@app.route("/logout")
+def logout():
+    session.pop("admin", None)
+    return redirect(url_for("login"))
 
 # ======================
 # تشغيل التطبيق
@@ -202,6 +196,3 @@ def delete_message(id):
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-    
