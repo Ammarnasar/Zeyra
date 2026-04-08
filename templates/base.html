@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- مهم للموبايل -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>ZEYRA</title>
 
     <!-- Font Awesome -->
@@ -11,45 +15,48 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<body style="margin:0; font-family:Arial;">
+<body>
 
 <!-- ===================== -->
 <!-- NAVBAR -->
 <!-- ===================== -->
-<div style="background:white; padding:15px 40px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,0.1); position:sticky; top:0; z-index:1000;">
+
+<nav class="navbar">
 
     <!-- LOGO -->
-    <div style="font-size:22px; font-weight:bold; color:#00bcd4;">
-        ZEYRA
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}">
+        <span>ZEYRA</span>
+    </div>
+
+    <!-- MENU ICON (Mobile) -->
+    <div class="menu-toggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
     </div>
 
     <!-- LINKS -->
-    <div>
-        <a href="/" style="margin:15px; text-decoration:none; color:black;">Home</a>
-        <a href="/services" style="margin:15px; text-decoration:none; color:black;">Services</a>
-        <a href="/careers" style="margin:15px; text-decoration:none; color:black;">Careers</a>
-        <a href="/contact" style="margin:15px; text-decoration:none; color:black;">Contact</a>
-        <a href="/login" style="color:red;">Admin</a>
+    <div class="nav-links" id="navLinks">
+        <a href="/">Home</a>
+        <a href="/services">Services</a>
+        <a href="/careers">Careers</a>
+        <a href="/contact">Contact</a>
+        <a href="/login" class="admin-link">Admin</a>
     </div>
 
     <!-- BUTTON -->
-    <div>
-        <a href="/contact" 
-           style="background:#00bcd4; color:white; padding:10px 20px; border-radius:5px; text-decoration:none;">
-           Get Started
-        </a>
-    </div>
-    
-    <div>
-    <img src="{{ url_for('static', filename='images/logo.png') }}" 
-         width="120" 
-         style="vertical-align:middle;">
-</div>
+    <a href="/contact" class="btn-start">Get Started</a>
 
-</div>
+</nav>
 
 <!-- PAGE CONTENT -->
 {% block content %}{% endblock %}
+
+<!-- SCRIPT -->
+<script>
+function toggleMenu() {
+    document.getElementById("navLinks").classList.toggle("active");
+}
+</script>
 
 </body>
 </html>

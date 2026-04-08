@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = "zeyra_secret_key"
 
 # ======================
-# إعداد رفع الملفات
+# رفع الملفات
 # ======================
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -26,85 +26,84 @@ def home():
 def services():
     return render_template("services.html")
 
+# ======================
+# CONTACT
+# ======================
+
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
-        name = request.form.get("name")
-        subject = request.form.get("subject")
-        message = request.form.get("message")
-
         conn = sqlite3.connect("database.db")
         c = conn.cursor()
 
         c.execute("""
         INSERT INTO messages (name, subject, message)
         VALUES (?, ?, ?)
-        """, (name, subject, message))
+        """, (
+            request.form.get("name"),
+            request.form.get("subject"),
+            request.form.get("message")
+        ))
 
         conn.commit()
         conn.close()
 
-        return redirect(url_for("contact"))
+        return redirect("/contact")
 
     return render_template("contact.html")
 
 # ======================
-# التوظيف
+# CAREERS
 # ======================
 
 @app.route("/careers", methods=["GET", "POST"])
 def careers():
     if request.method == "POST":
-        try:
-            name = request.form.get("name")
-            email = request.form.get("email")
-            phone = request.form.get("phone")
-            age = request.form.get("age")
-            national_id = request.form.get("national_id")
-            english_level = request.form.get("english_level")
 
-            cv = request.files.get("cv")
-            id_front = request.files.get("id_front")
-            id_back = request.files.get("id_back")
+        name = request.form.get("name")
+        email = request.form.get("email")
+        phone = request.form.get("phone")
+        age = request.form.get("age")
+        national_id = request.form.get("national_id")
+        english_level = request.form.get("english_level")
 
-            cv_name = cv.filename if cv else ""
-            front_name = id_front.filename if id_front else ""
-            back_name = id_back.filename if id_back else ""
+        cv = request.files.get("cv")
+        id_front = request.files.get("id_front")
+        id_back = request.files.get("id_back")
 
-            if cv:
-                cv.save(os.path.join(app.config["UPLOAD_FOLDER"], cv_name))
+        cv_name = cv.filename if cv else ""
+        front_name = id_front.filename if id_front else ""
+        back_name = id_back.filename if id_back else ""
 
-            if id_front:
-                id_front.save(os.path.join(app.config["UPLOAD_FOLDER"], front_name))
+        if cv:
+            cv.save(os.path.join(app.config["UPLOAD_FOLDER"], cv_name))
+        if id_front:
+            id_front.save(os.path.join(app.config["UPLOAD_FOLDER"], front_name))
+        if id_back:
+            id_back.save(os.path.join(app.config["UPLOAD_FOLDER"], back_name))
 
-            if id_back:
-                id_back.save(os.path.join(app.config["UPLOAD_FOLDER"], back_name))
+        conn = sqlite3.connect("database.db")
+        c = conn.cursor()
 
-            conn = sqlite3.connect("database.db")
-            c = conn.cursor()
+        c.execute("""
+        INSERT INTO applicants 
+        (name, email, phone, age, national_id, english_level, cv, id_front, id_back)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            name, email, phone, age,
+            national_id, english_level,
+            cv_name, front_name, back_name
+        ))
 
-            c.execute("""
-            INSERT INTO applicants 
-            (name, email, phone, age, national_id, english_level, cv, id_front, id_back)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                name, email, phone, age,
-                national_id, english_level,
-                cv_name, front_name, back_name
-            ))
+        conn.commit()
+        conn.close()
 
-            conn.commit()
-            conn.close()
-
-        except Exception as e:
-            print("Error:", e)
-
-        return redirect(url_for("careers"))
+        return redirect("/careers")
 
     return render_template("careers.html")
 
 # ======================
-# تسجيل دخول الأدمن
+# LOGIN
 # ======================
 
 @app.route("/login", methods=["GET", "POST"])
@@ -114,21 +113,21 @@ def login():
         password = request.form.get("password")
 
         if username == "Ammar" and password == "Ammar123456":
-            session["ammar"] = True
-            return redirect(url_for("dashboard"))
+            session["admin"] = True   # ✅ توحيد الاسم
+            return redirect("/admin")
         else:
-            return render_template("login.html", error="Wrong username or password")
+            return render_template("login.html", error="Wrong login")
 
     return render_template("login.html")
 
 # ======================
-# Dashboard (محمية)
+# ADMIN PAGE
 # ======================
 
-@app.route("/dashboard")
-def dashboard():
+@app.route("/admin")
+def admin():
     if "admin" not in session:
-        return redirect(url_for("login"))
+        return redirect("/login")
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
@@ -136,21 +135,18 @@ def dashboard():
     c.execute("SELECT * FROM applicants")
     applicants = c.fetchall()
 
-    c.execute("SELECT * FROM messages")
-    messages = c.fetchall()
-
     conn.close()
 
-    return render_template("dashboard.html", applicants=applicants, messages=messages)
+    return render_template("admin.html", applicants=applicants)
 
 # ======================
-# حذف متقدم
+# DELETE APPLICANT
 # ======================
 
-@app.route("/delete_applicant/<int:id>")
-def delete_applicant(id):
+@app.route("/delete/<int:id>")
+def delete(id):
     if "admin" not in session:
-        return redirect(url_for("login"))
+        return redirect("/login")
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
@@ -160,38 +156,19 @@ def delete_applicant(id):
     conn.commit()
     conn.close()
 
-    return redirect(url_for("dashboard"))
+    return redirect("/admin")
 
 # ======================
-# حذف رسالة
-# ======================
-
-@app.route("/delete_message/<int:id>")
-def delete_message(id):
-    if "admin" not in session:
-        return redirect(url_for("login"))
-
-    conn = sqlite3.connect("database.db")
-    c = conn.cursor()
-
-    c.execute("DELETE FROM messages WHERE id = ?", (id,))
-
-    conn.commit()
-    conn.close()
-
-    return redirect(url_for("dashboard"))
-
-# ======================
-# تسجيل الخروج
+# LOGOUT
 # ======================
 
 @app.route("/logout")
 def logout():
     session.pop("admin", None)
-    return redirect(url_for("login"))
+    return redirect("/login")
 
 # ======================
-# تشغيل التطبيق
+# RUN
 # ======================
 
 if __name__ == "__main__":
