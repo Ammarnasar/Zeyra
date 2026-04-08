@@ -707,3 +707,52 @@ th {
     color: red;
     text-decoration: none;
 }
+/* ================= MOBILE NAV ================= */
+
+.mobile-nav {
+    display: none;
+}
+
+/* موبايل */
+@media (max-width: 768px) {
+
+    /* اخفاء النافبار العادي */
+    .navbar {
+        display: none;
+    }
+
+    .mobile-nav {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 70px;
+        background: #0f2235;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 1000;
+        border-top: 1px solid #222;
+    }
+
+    .mobile-nav a {
+        text-align: center;
+        color: #aaa;
+        font-size: 12px;
+        text-decoration: none;
+    }
+
+    .mobile-nav i {
+        display: block;
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    .mobile-nav a:hover {
+        color: #00d4ff;
+    }
+
+    /* عشان المحتوى ما ينزل تحت */
+    body {
+        padding-bottom: 80px;
+    }
+}
