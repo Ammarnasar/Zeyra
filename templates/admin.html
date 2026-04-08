@@ -1,6 +1,72 @@
 {% extends "base.html" %}
-
 {% block content %}
+
+<style>
+.admin-container {
+    padding:40px;
+}
+
+h1 {
+    margin-bottom:20px;
+}
+
+/* Table */
+table {
+    width:100%;
+    border-collapse:collapse;
+    background:#020617;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+th {
+    background:#0b1c39;
+    color:white;
+    padding:12px;
+    text-align:left;
+}
+
+td {
+    padding:10px;
+    border-bottom:1px solid #1e293b;
+    color:white;
+}
+
+tr:hover {
+    background:#1e293b;
+}
+
+/* Buttons */
+.btn {
+    padding:6px 12px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.btn-delete {
+    background:red;
+    color:white;
+}
+
+.btn-view {
+    background:#00bcd4;
+    color:white;
+}
+
+.btn-details {
+    background:#22c55e;
+    color:white;
+}
+
+/* Images */
+.id-img {
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:6px;
+}
+</style>
 
 <div class="admin-container">
 
@@ -12,26 +78,57 @@
                 <th>Name</th>
                 <th>Phone</th>
                 <th>Email</th>
+                <th>National ID</th>
+                <th>Language</th>
                 <th>CV</th>
+                <th>ID Front</th>
+                <th>ID Back</th>
                 <th>Action</th>
             </tr>
         </thead>
 
         <tbody>
-            {% for user in users %}
+            {% for a in applicants %}
             <tr>
-                <td>{{ user.first_name }} {{ user.last_name }}</td>
-                <td>{{ user.phone }}</td>
-                <td>{{ user.email }}</td>
+                <!-- 🔥 استخدم أسماء بدل أرقام -->
+                <td>{{ a["name"] }}</td>
+                <td>{{ a["phone"] }}</td>
+                <td>{{ a["email"] }}</td>
+                <td>{{ a["national_id"] }}</td>
+                <td>{{ a["language"] }} ({{ a["language_level"] }})</td>
 
+                <!-- CV -->
                 <td>
-                    <a href="{{ url_for('static', filename='uploads/' + user.cv) }}" target="_blank">
-                        View CV
-                    </a>
+                    {% if a["cv"] %}
+                        <a href="{{ url_for('static', filename='uploads/' + a["cv"]) }}" target="_blank" class="btn btn-view">View</a>
+                    {% endif %}
                 </td>
 
+                <!-- ID FRONT -->
                 <td>
-                    <a href="/delete/{{ user.id }}" class="delete-btn">Delete</a>
+                    {% if a["id_front"] %}
+                        <img src="{{ url_for('static', filename='uploads/' + a["id_front"]) }}" class="id-img">
+                    {% endif %}
+                </td>
+
+                <!-- ID BACK -->
+                <td>
+                    {% if a["id_back"] %}
+                        <img src="{{ url_for('static', filename='uploads/' + a["id_back"]) }}" class="id-img">
+                    {% endif %}
+                </td>
+
+                <!-- ACTIONS -->
+                <td>
+                    <a href="/applicant/{{ a['id'] }}" class="btn btn-details">Details</a>
+
+                    <br><br>
+
+                    <a href="{{ url_for('delete', id=a['id']) }}" 
+                       class="btn btn-delete"
+                       onclick="return confirm('Delete this applicant?')">
+                       Delete
+                    </a>
                 </td>
             </tr>
             {% endfor %}

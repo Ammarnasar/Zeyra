@@ -756,3 +756,18 @@ th {
         padding-bottom: 80px;
     }
 }
+table {
+    background: #020617 !important;
+}
+
+td {
+    color: white !important;
+}
+
+tr {
+    background: transparent !important;
+}
+
+tr:hover {
+    background: #1e293b !important;
+}
