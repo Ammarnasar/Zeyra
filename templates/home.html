@@ -3,9 +3,9 @@
 
 <!-- HERO -->
 <section style="
-    height:90vh;
-    background: linear-gradient(rgba(11,28,57,0.8), rgba(11,28,57,0.9)),
-                url('{{ url_for('static', filename='images/bg.jpg') }}') center/cover;
+    height:100vh;
+    background: linear-gradient(rgba(11,28,57,0.75), rgba(11,28,57,0.9)),
+                url('{{ url_for('static', filename='images/home.jpg') }}') center/cover;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -14,15 +14,27 @@
 ">
 
     <div>
-        <h1 style="font-size:50px; margin-bottom:20px;">
+
+        <!-- 🔥 LOGO -->
+        <img src="{{ url_for('static', filename='images/logo.png') }}" 
+             style="
+             width:200px;
+             margin-bottom:20px;
+             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
+             ">
+
+        <!-- TITLE -->
+        <h1 style="font-size:42px; margin-bottom:20px;">
             Elevate Your Business with ZEYRA
         </h1>
 
+        <!-- DESCRIPTION -->
         <p style="font-size:18px; max-width:600px; margin:auto;">
             We provide world-class outsourcing solutions, customer support,
             and business process optimization to help you scale faster.
         </p>
 
+        <!-- BUTTONS -->
         <div style="margin-top:40px;">
 
             <a href="/services" style="
@@ -127,6 +139,7 @@
     </a>
 
 </section>
+
 <!-- FOOTER -->
 <footer style="
     background:#0b1c39;
@@ -135,8 +148,9 @@
     text-align:center;
 ">
 
-    <!-- LOGO / NAME -->
-    <h2>ZEYRA</h2>
+    <!-- LOGO -->
+    <img src="{{ url_for('static', filename='images/logo.png') }}" 
+         style="width:120px; margin-bottom:10px;">
 
     <!-- DESCRIPTION -->
     <p style="max-width:500px; margin:10px auto; color:#ccc;">
@@ -144,93 +158,39 @@
         and operational excellence.
     </p>
 
-    <!-- SOCIAL MEDIA -->
+    <!-- SOCIAL -->
     <div style="margin:20px 0;">
-
-        <a href="https://facebook.com" target="_blank" style="margin:10px; color:white; font-size:22px;">
+        <a href="#" style="margin:10px; color:white; font-size:22px;">
             <i class="fab fa-facebook"></i>
         </a>
 
-        <a href="https://instagram.com" target="_blank" style="margin:10px; color:white; font-size:22px;">
+        <a href="#" style="margin:10px; color:white; font-size:22px;">
             <i class="fab fa-instagram"></i>
         </a>
 
-        <a href="https://linkedin.com" target="_blank" style="margin:10px; color:white; font-size:22px;">
+        <a href="#" style="margin:10px; color:white; font-size:22px;">
             <i class="fab fa-linkedin"></i>
         </a>
-
     </div>
 
-    <!-- CONTACT INFO -->
-    <p style="margin:10px 0;">
-        📞 Phone: +962 780644250
-    </p>
+    <!-- CONTACT -->
+    <p>📞 +962 780644250</p>
+    <p>📍 Amman, Jordan</p>
 
-    <p style="margin:10px 0;">
-        📍 Location: Jordan, Amman
-    </p>
-
-    <!-- 🔥 WHATSAPP BUTTON -->
-    <a href="https://wa.me/96278XXXXXXX" target="_blank" style="
-        display:inline-block;
-        margin-top:15px;
+    <!-- WHATSAPP FLOAT -->
+    <a href="https://wa.me/962780644250" target="_blank" style="
+        position:fixed;
+        bottom:20px;
+        right:20px;
         background:#25D366;
-        padding:12px 25px;
         color:white;
-        text-decoration:none;
-        border-radius:5px;
+        padding:15px;
+        border-radius:50%;
+        font-size:22px;
+        box-shadow:0 5px 15px rgba(0,0,0,0.3);
     ">
-        💬 Chat on WhatsApp
-
-        <!-- WHATSAPP FLOAT BUTTON -->
-<a href="https://wa.me/962780644250" class="whatsapp-float" target="_blank">
-    <i class="fab fa-whatsapp"></i>
-</a>
-
-<!-- WHATSAPP POPUP -->
-<div class="whatsapp-popup" id="whatsappBox">
-
-    <div class="whatsapp-header">
-        💬 Chat with Zeyra
-        <span onclick="closeWhatsapp()">✖</span>
-    </div>
-
-    <p style="padding:10px;">
-        Hello 👋<br>
-        How can we help you today?
-    </p>
-
-    <a href="https://wa.me/962780644250?text=Hello%20I%20want%20to%20know%20more%20about%20Zeyra"
-       target="_blank"
-       class="whatsapp-btn">
-       Start Chat
+        <i class="fab fa-whatsapp"></i>
     </a>
-
-</div>
-
-<!-- FLOAT BUTTON -->
-<div class="whatsapp-float" onclick="openWhatsapp()">
-    <i class="fab fa-whatsapp"></i>
-</div>
-
-<script>
-function openWhatsapp(){
-    document.getElementById("whatsappBox").style.display = "block";
-}
-
-function closeWhatsapp(){
-    document.getElementById("whatsappBox").style.display = "none";
-}
-
-// 🔥 يظهر تلقائي بعد 3 ثواني
-setTimeout(() => {
-    document.getElementById("whatsappBox").style.display = "block";
-}, 3000);
-</script>
-
-            </a>
-
-        
 
     <!-- COPYRIGHT -->
     <p style="margin-top:20px; color:#aaa;">
